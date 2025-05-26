@@ -45,6 +45,23 @@
       font-weight: bold;
       color: #333;
     }
+    #container {
+      width: 100px;
+      height: 300px;
+      border: 4px solid #4fc3f7;
+      border-radius: 10px;
+      margin: 2rem auto;
+      position: relative;
+      background: #e0f7fa;
+    }
+    #fluid {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background-color: #0288d1;
+      transition: height 0.5s ease-in-out;
+      border-radius: 0 0 10px 10px;
+    }
   </style>
 </head>
 <body>
@@ -65,6 +82,11 @@
       <div id="baseVolLabel">Base Volume: 1.0 L</div>
       <div id="currVolLabel">Current Volume: 1.0 L</div>
     </div>
+
+    <div class="info">📦 Visual Container:</div>
+    <div id="container">
+      <div id="fluid" style="height: 100px;"></div>
+    </div>
   </div>
 
   <script>
@@ -74,6 +96,7 @@
     const baseVolLabel = document.getElementById('baseVolLabel');
     const currVolLabel = document.getElementById('currVolLabel');
     const ctx = canvas.getContext('2d');
+    const fluid = document.getElementById('fluid');
 
     const baseTemp = 300; // K
     const baseVolume = 1.0; // L
@@ -91,6 +114,9 @@
 
       baseVolLabel.textContent = `Base Volume: ${baseVolume} L`;
       currVolLabel.textContent = `Current Volume: ${volume.toFixed(2)} L`;
+
+      const fluidHeight = Math.min(200 * volume, 280);
+      fluid.style.height = `${fluidHeight}px`;
     }
 
     tempInput.addEventListener('input', () => {
