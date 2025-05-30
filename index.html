@@ -3,129 +3,155 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Charles's Law Simulation</title>
+  <title>Hot Air Balloon - Charles's Law Simulation</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #e0f7fa, #ffffff);
-      padding: 2rem;
+      font-family: Arial, sans-serif;
       margin: 0;
-    }
-    .container {
-      max-width: 700px;
-      margin: auto;
-      background: #ffffffcc;
       padding: 2rem;
-      border-radius: 1.5rem;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      background: linear-gradient(to top, #87ceeb, #ffffff);
       text-align: center;
+      overflow-x: hidden;
+      transition: background 1s;
     }
     h1 {
-      color: #00796b;
-      font-size: 2rem;
+      color: #d84315;
+    }
+    .controls {
+      margin-top: 2rem;
     }
     input[type="range"] {
-      width: 100%;
+      width: 300px;
     }
-    #graph {
-      margin-top: 2rem;
-      border: 2px solid #ccc;
-      border-radius: 0.5rem;
-      background: #f0f8ff;
-    }
-    .info {
-      font-size: 1.1rem;
-      margin-top: 1rem;
-      color: #555;
-    }
-    .volume-box {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 1rem;
-      font-weight: bold;
-      color: #333;
-    }
-    #container {
-      width: 100px;
-      height: 300px;
-      border: 4px solid #4fc3f7;
-      border-radius: 10px;
-      margin: 2rem auto;
+    .balloon-container {
       position: relative;
-      background: #e0f7fa;
+      height: 400px;
+      margin-top: 3rem;
+      background: linear-gradient(to top, #a0d8ef, #e0f7fa);
+      border-radius: 1rem;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+      overflow: hidden;
     }
-    #fluid {
+    .balloon {
       position: absolute;
       bottom: 0;
-      width: 100%;
-      background-color: #0288d1;
-      transition: height 0.5s ease-in-out;
-      border-radius: 0 0 10px 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 140px;
+      background: radial-gradient(circle at center, #f44336, #c62828);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      transition: transform 0.5s ease-in-out;
+      animation: drift 10s ease-in-out infinite alternate;
+    }
+    @keyframes drift {
+      0% { left: 45%; }
+      100% { left: 55%; }
+    }
+    .basket {
+      width: 40px;
+      height: 30px;
+      background-color: #8d6e63;
+      position: absolute;
+      left: 50%;
+      bottom: -30px;
+      transform: translateX(-50%);
+      border-radius: 4px;
+    }
+    .info-box {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #444;
+    }
+    .sun {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, #ffeb3b, #fbc02d);
+      border-radius: 50%;
+      box-shadow: 0 0 20px #fff176;
+    }
+    .cloud {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: float 20s linear infinite;
+    }
+    .cloud::before,
+    .cloud::after {
+      content: '';
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+    }
+    .cloud::before {
+      width: 60px;
+      height: 60px;
+      left: -30px;
+      top: 10px;
+    }
+    .cloud::after {
+      width: 80px;
+      height: 80px;
+      left: 20px;
+      top: -10px;
+    }
+    @keyframes float {
+      0% { left: -200px; }
+      100% { left: 100%; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🔥 Charles's Law Interactive Lab 🔥</h1>
-    <label for="temperature">Adjust Temperature (K):</label>
-    <input type="range" id="temperature" min="100" max="600" value="300" step="10">
-    <div class="info">Current Temperature: <span id="tempVal">300</span> K</div>
+  <h1>✨ Hot Air Balloon Simulation - Charles's Law ✨</h1>
 
-    <div class="info">
-      Charles's Law states: <strong>V₁ / T₁ = V₂ / T₂</strong><br>
-      📈 Volume increases with temperature!
+  <div class="controls">
+    <label for="temperature">Temperature (K):</label><br>
+    <input type="range" id="temperature" min="250" max="500" value="300">
+    <div class="info-box">
+      Current Temperature: <span id="tempVal">300</span> K<br>
+      Volume of Air: <span id="volumeVal">1000</span> m<sup>3</sup>
     </div>
+  </div>
 
-    <canvas id="graph" width="500" height="300"></canvas>
+  <div class="balloon-container">
+    <div class="sun"></div>
+    <div class="cloud" style="top: 50px; width: 100px; height: 50px;"></div>
+    <div class="cloud" style="top: 120px; width: 120px; height: 60px; animation-delay: 10s;"></div>
 
-    <div class="volume-box">
-      <div id="baseVolLabel">Base Volume: 1.0 L</div>
-      <div id="currVolLabel">Current Volume: 1.0 L</div>
-    </div>
-
-    <div class="info">📦 Visual Container:</div>
-    <div id="container">
-      <div id="fluid" style="height: 100px;"></div>
+    <div class="balloon" id="balloon">
+      <div class="basket"></div>
     </div>
   </div>
 
   <script>
-    const tempInput = document.getElementById('temperature');
+    const baseTemp = 300; // Kelvin
+    const baseVolume = 1000; // m^3
+
+    const tempSlider = document.getElementById('temperature');
     const tempVal = document.getElementById('tempVal');
-    const canvas = document.getElementById('graph');
-    const baseVolLabel = document.getElementById('baseVolLabel');
-    const currVolLabel = document.getElementById('currVolLabel');
-    const ctx = canvas.getContext('2d');
-    const fluid = document.getElementById('fluid');
+    const volumeVal = document.getElementById('volumeVal');
+    const balloon = document.getElementById('balloon');
 
-    const baseTemp = 300; // K
-    const baseVolume = 1.0; // L
+    function updateBalloon() {
+      const temp = parseInt(tempSlider.value);
+      tempVal.textContent = temp;
 
-    function drawGraph(temp) {
-      const volume = (baseVolume / baseTemp) * temp;
+      const volume = baseVolume * temp / baseTemp;
+      volumeVal.textContent = volume.toFixed(0);
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const scale = Math.min(volume / baseVolume, 2);
+      const rise = Math.min((volume - baseVolume) / 5, 250);
 
-      ctx.fillStyle = '#ffcc80';
-      ctx.fillRect(100, canvas.height - 50, 80, -baseVolume * 200);
-
-      ctx.fillStyle = '#4fc3f7';
-      ctx.fillRect(300, canvas.height - 50, 80, -volume * 200);
-
-      baseVolLabel.textContent = `Base Volume: ${baseVolume} L`;
-      currVolLabel.textContent = `Current Volume: ${volume.toFixed(2)} L`;
-
-      const fluidHeight = Math.min(200 * volume, 280);
-      fluid.style.height = `${fluidHeight}px`;
+      balloon.style.transform = `translateX(-50%) translateY(-${rise}px) scale(${scale})`;
     }
 
-    tempInput.addEventListener('input', () => {
-      const temp = parseInt(tempInput.value);
-      tempVal.textContent = temp;
-      drawGraph(temp);
-    });
-
-    drawGraph(baseTemp);
+    tempSlider.addEventListener('input', updateBalloon);
+    updateBalloon();
   </script>
 </body>
 </html>
+
