@@ -36,9 +36,10 @@
       position: absolute;
       bottom: 0;
       width: 100%;
-      height: 120px;
+      height: 60px;
       background: url('/mnt/data/5ec1342f-d8a8-4303-b9a4-557db9e4ac57.png') center bottom no-repeat;
       background-size: cover;
+      z-index: 1;
     }
     .balloon {
       position: absolute;
@@ -51,6 +52,7 @@
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
       transition: transform 0.5s ease-in-out;
       animation: drift 10s ease-in-out infinite alternate;
+      z-index: 2;
     }
     @keyframes drift {
       0% { left: 45%; }
@@ -111,6 +113,37 @@
       0% { left: -200px; }
       100% { left: 100%; }
     }
+
+    .buildings {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      padding-bottom: 20px;
+      z-index: 0;
+    }
+
+    .building {
+      width: 50px;
+      background: linear-gradient(to top, #333, #555);
+      border-radius: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-content: flex-start;
+      padding: 4px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .window {
+      width: 10px;
+      height: 10px;
+      background-color: #e0f7fa;
+      margin: 2px;
+      border-radius: 2px;
+    }
   </style>
 </head>
 <body>
@@ -131,6 +164,33 @@
     <div class="cloud" style="top: 120px; width: 120px; height: 60px; animation-delay: 10s;"></div>
     <div class="balloon" id="balloon">
       <div class="basket"></div>
+    </div>
+    <div class="buildings">
+      <div class="building" style="height: 80px;">
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+      </div>
+      <div class="building" style="height: 120px;">
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+      </div>
+      <div class="building" style="height: 100px;">
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+      </div>
+      <div class="building" style="height: 140px;">
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+      </div>
+      <div class="building" style="height: 110px;">
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+        <div class="window"></div><div class="window"></div><div class="window"></div>
+      </div>
     </div>
     <div class="ground"></div>
   </div>
