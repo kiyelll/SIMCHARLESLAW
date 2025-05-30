@@ -32,9 +32,17 @@
       box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
       overflow: hidden;
     }
-    .balloon {
+    .ground {
       position: absolute;
       bottom: 0;
+      width: 100%;
+      height: 120px;
+      background: url('/mnt/data/5ec1342f-d8a8-4303-b9a4-557db9e4ac57.png') center bottom no-repeat;
+      background-size: cover;
+    }
+    .balloon {
+      position: absolute;
+      bottom: 100px;
       left: 50%;
       transform: translateX(-50%);
       width: 100px;
@@ -121,10 +129,10 @@
     <div class="sun"></div>
     <div class="cloud" style="top: 50px; width: 100px; height: 50px;"></div>
     <div class="cloud" style="top: 120px; width: 120px; height: 60px; animation-delay: 10s;"></div>
-
     <div class="balloon" id="balloon">
       <div class="basket"></div>
     </div>
+    <div class="ground"></div>
   </div>
 
   <script>
